@@ -107,6 +107,22 @@ Examples include:
 
 These functions are called automatically by the main scripts.
 
+## RSP Breadth Extension
+
+The original paper trades SPY momentum using the Noise Area and VWAP. Our extension adds **RSP**, the equal-weighted S&P 500 ETF, as a simple market breadth check.
+
+The motivation is that SPY is capitalization weighted. A strong SPY move can therefore be driven by a relatively small number of large constituents even when the broader S&P 500 is not moving in the same direction.
+
+The RSP strategy does **not** replace the original signal. Instead, it acts as a veto:
+
+- A new **long** SPY trade is rejected when RSP is clearly bearish, meaning RSP is below both its VWAP and its daily open.
+- A new **short** SPY trade is rejected when RSP is clearly bullish, meaning RSP is above both its VWAP and its daily open.
+- If RSP is neutral, the original SPY signal is still allowed.
+
+This keeps the published strategy largely unchanged while filtering trades where cap-weighted SPY momentum is not supported by equal-weight market breadth.
+
+In our out-of-sample period, RSP disagreement becomes more frequent and the contradicted SPY signals become less profitable, which provides the economic motivation for the final veto rule.
+
 ## Test Environment
 
 The `Test Environment` folder contains alternative specifications and exploratory versions that were tested during strategy development.
